@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  fullstack-frontend:
+    container_name: fullstack-frontend
+    image: fullstack-frontend
+    build: .
+    expose:
+      - 80
+    volumes:
+     - .:/home/app
+     - node_modules:/home/app/node_modules
+
+    # user: 
+    #   ${CURRENT_UID}
+volumes: 
+  node_modules:
+
+networks:
+  default:
+    external:
+      name: fullstack

@@ -1,0 +1,15 @@
+$colorQuinary:  #111111;
+$primaryColor: #111;
+$secondaryColor: #666;
+// primary: '#999999', //  '#9b4dca',
+// secondary: '#777777',
+// tertiary: '#555555',
+// quaternary: '#333333',
+// quinary: '#111111',
+:export {
+    COLOR_QUINARY: $colorQuinary;
+    PRIMARY_COLOR: $primaryColor;
+    SECONDARY_COLOR: $secondaryColor;
+    // HEADER_HEIGHT : $content-top ;
+    // COM_TOP_HEIGHT: $com-userbar-height + $cam-container-height + $com-controls-height;
+}

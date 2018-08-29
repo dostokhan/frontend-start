@@ -1,0 +1,6 @@
+version: '3.3'
+
+services:
+  fullstack-frontend:
+    env_file: 
+      - .env.docker.development

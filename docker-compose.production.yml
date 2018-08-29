@@ -1,0 +1,8 @@
+version: '3'
+services:
+  frontend:
+    environment:
+      NODE_ENV: "production"
+      VIRTUAL_HOST: "www.imonir.com"
+      LETSENCRYPT_HOST: "www.imonir.com"
+      LETSENCRYPT_EMAIL: "imonir.com@gmail.com"

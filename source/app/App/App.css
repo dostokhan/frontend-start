@@ -1,0 +1,14 @@
+body {
+  background: #fff; 
+}
+strong {
+/*
+ * active
+ * */
+  color: #111;
+}
+a {
+  color: #1e8bc9;
+  cursor: pointer;
+}
+
