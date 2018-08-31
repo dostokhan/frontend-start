@@ -6,7 +6,7 @@ const { parse } = require('url');
 
 const dev = process.env.NODE_ENV !== 'production';
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
-const PORT = 80;
+
 
 const app = next({ dev });
 const handle = app.getRequestHandler(app);
@@ -35,15 +35,15 @@ app.prepare().then(() => {
     if (route) {
       console.log('IN SERVER ROOT ROUTE');
       // console.log(`pathname: ${pathname}`);
-    // console.log(`query: ${query}`);
+      // console.log(`query: ${query}`);
       console.log(`Page: ${route.page}`);
       return app.render(req, res, route.page, route.query);
     }
     return handle(req, res);
   });
 
-  server.listen(PORT, (err) => {
+  server.listen(process.env.PORT, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${PORT}`);
+    console.log(`> Ready on http://localhost:${process.env.PORT}`);
   });
 });

@@ -13,27 +13,27 @@ const PATHS = {
 
 };
 
-const PROTOCOL = '//';
+const PROTOCOL = 'https://';
 
 const APP_URL = {
   development: `${PROTOCOL}local.fullstack.imonir.com/`,
   production: `${PROTOCOL}fullstack.imonir.com/`,
 };
 
-const API_URL = {
-  development: `${PROTOCOL}local.fullstackapi.imonir.com/`,
-  production: `${PROTOCOL}fullstackapi.imonir.com/`,
-};
+// const API_URL = {
+//   development: `${PROTOCOL}local.fullstackapi.imonir.com/`,
+//   production: `${PROTOCOL}fullstackapi.imonir.com/`,
+// };
 
-const API_URL_BACK = {
-  development: 'http://fullstack-backend:8000/',
-  production: 'http://fullstack-backend:8000/',
-};
+// const API_URL_BACK = {
+//   development: 'http://fullstack-backend:8000/',
+//   production: 'http://fullstack-backend:8000/',
+// };
 
 
 exports.HOST = '0.0.0.0';
 exports.PORT = 80;
 exports.PATHS = PATHS;
-exports.API_URL = API_URL;
-exports.API_URL_BACK = API_URL_BACK;
+// exports.API_URL = API_URL;
+// exports.API_URL_BACK = API_URL_BACK;
 exports.APP_URL = APP_URL;

@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import axios from 'axios';
-import { API_REQUEST } from 'redux/middleware/http';
+import { API_REQUEST } from 'helpers/constants';
 // import StoreMan from 'helpers/storeman';
 import {
   authExpired,
@@ -9,7 +9,7 @@ import {
   getCookie,
 } from 'utils/cookie';
 
-axios.defaults.baseURL = process.browser ? `${API_URL}` : `${API_URL_BACK}`;
+// axios.defaults.baseURL = process.browser ? `${API_URL}` : `${API_URL_BACK}`;
 
 
 const addToken = (meta, req) => {

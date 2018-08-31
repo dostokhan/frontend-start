@@ -18,18 +18,18 @@ import {
 //   setToken,
 // } from 'redux/modules/auth';
 
-import './App.css';
+import './Layout.css';
 
 import Header from './Header/Header';
 
-const AppBody = styled.div`
+const PageContent = styled.div`
   min-height: 100vh;
   position: relative;
   color: ${props => props.theme.colors.text};
   background: ${props => props.theme.colors.background};
 `;
 
-class App extends PureComponent {
+class Layout extends PureComponent {
   componentDidMount() {
     if (PRODUCTION) {
       if (!window.GA_INITIALIZED) {
@@ -52,15 +52,15 @@ class App extends PureComponent {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <AppBody>
+        <PageContent>
           <Header />
           { this.props.children }
-        </AppBody>
+        </PageContent>
       </ThemeProvider>
     );
   }
 }
-App.propTypes = {
+Layout.propTypes = {
   // setToken: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
@@ -69,5 +69,5 @@ App.propTypes = {
 //   bindActionCreators({
 //     setToken,
 //   }, dispatch);
-// export default connect(null, mapDispatchToProps)(App);
-export default App;
+// export default connect(null, mapDispatchToProps)(Layout);
+export default Layout;

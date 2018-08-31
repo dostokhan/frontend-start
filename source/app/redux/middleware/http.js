@@ -1,10 +1,6 @@
-import Api from 'helpers/api';
+import axios from 'axios';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
-
-export const API_REQUEST = Symbol('JITSI_REQUEST');
+import { API_REQUEST } from '@Helpers/constants';
 
 const http = store => next => (action) => { // eslint-disable-line no-unused-vars
   if (!action[API_REQUEST]) return next(action);
@@ -14,16 +10,9 @@ const http = store => next => (action) => { // eslint-disable-line no-unused-var
 
   next({ type: requestType });
 
-  // console.log(`#################REQUESTING ${url}#################`);
-  // fetch(url, request)
-  Api.fetch(action, next)
-    .then((response) => {
-      const { body, params } = config;
-      next({ type: successType, payload: response, data: body, params });
-    })
-    .catch((err) => {
-      next({ type: errorType, payload: err });
-    });
+  axios(config)
+    .then(response => next({ type: successType, payload: response.data }))
+    .catch(error => next({ type: errorType, payload: error }));
 
   return true;
 };

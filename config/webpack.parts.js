@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -11,8 +12,8 @@ const {
   PATHS,
   HOST,
   PORT,
-  API_URL,
-  API_URL_BACK,
+  // API_URL,
+  // API_URL_BACK,
   APP_URL,
 } = require('./constants');
 
@@ -24,8 +25,8 @@ exports.setGlobalVariables = (target, override = {}) => ({
       },
       PRODUCTION: JSON.stringify(target === 'production'),
       DEBUG: JSON.stringify(target !== 'production'),
-      API_URL: JSON.stringify(API_URL[target]),
-      API_URL_BACK: JSON.stringify(API_URL_BACK[target]),
+      // API_URL: JSON.stringify(API_URL[target]),
+      // API_URL_BACK: JSON.stringify(API_URL_BACK[target]),
       APP_URL: JSON.stringify(APP_URL[target]),
     }, override)),
   ],
@@ -50,6 +51,8 @@ exports.generateSourceMaps = ({ type }) => ({
   devtool: type,
 });
 
+// TODO: NEED TO DEFINE SAME ALIASES FOR jest TO WORK
+// IN package.json
 exports.resolveProjectDependencies = {
   resolve: {
     modules: [
@@ -59,6 +62,12 @@ exports.resolveProjectDependencies = {
     alias: {
       Assets: PATHS.Assets,
       Styles: PATHS.Styles,
+      '@Components': path.resolve(__dirname, '..', 'source', 'app', 'components'),
+      '@Helpers': path.resolve(__dirname, '..', 'source', 'app', 'helpers'),
+      '@Redux': path.resolve(__dirname, '..', 'source', 'app', 'redux'),
+      '@Routes': path.resolve(__dirname, '..', 'source', 'app', 'routes'),
+      '@Styled': path.resolve(__dirname, '..', 'source', 'app', 'styled'),
+      '@Ui': path.resolve(__dirname, '..', 'source', 'app', 'ui'),
     },
     extensions: ['.js', '.jsx', '.scss', '.css'],
   },
@@ -278,10 +287,10 @@ exports.setDevServer = ({ host, port, hot } = {}) =>
  * PRODUCTION PARTS
  * **************************/
 
-exports.clean = path =>
+exports.clean = buildPath =>
   ({
     plugins: [
-      new CleanWebpackPlugin([path],
+      new CleanWebpackPlugin([buildPath],
         {
           verbose: true,
           allowExternal: true,

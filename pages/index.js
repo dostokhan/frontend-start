@@ -7,7 +7,7 @@ import {
   khoborList,
   fetchKhoborList,
 } from 'redux/modules/khobor';
-import App from 'App/App';
+import Layout from '@Components/Layout/Layout';
 import Home from 'routes/Home/Home';
 import initialize from 'utils/initialize';
 
@@ -47,9 +47,9 @@ class Index extends PureComponent {
 
   render() {
     return (
-      <App>
+      <Layout>
         <Home />
-      </App>
+      </Layout>
     );
   }
 }

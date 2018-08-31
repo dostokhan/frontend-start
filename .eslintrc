@@ -9,11 +9,6 @@
         "import/cache": {
             "lifetime": 5
         },
-        "import/resolver": {
-            "webpack": {
-                "config": "webpack.config.vim.js"
-            }
-        }
     },
     "rules": {
         "indent": ["error", 2, {"SwitchCase": 1}],
@@ -43,28 +38,17 @@
         "import/extensions": "off",
     }, 
     "globals": {
-        "DEVMODE": true,
         "PRODUCTION": true,
         "DEBUG": true,
         "DEBUG_RENDER": true,
-        "API_URL": true,
-        "API_URL_BACK": true,
-        "XMPP_DOMAIN": true,
+        "API_URL_IN_BROWSER": true,
+        "API_URL_IN_CONTAINER": true,
         "localStorage": true,
-        "window": true,
-        "document": true,
-        "angular": true,
-        "$": true,
-        "jQuery": true,
-        "JitsiMeetJS": true,
-        "Strophe": true,
-        "OpenfireMeetings": true,
-        "$pres": true,
-        "fabric": true,
 
         /* testing related globals */
         "describe": true,
         "beforeEach": true,
+        "afterEach": true,
         "inject": true,
         "expect": true,
         "it": true

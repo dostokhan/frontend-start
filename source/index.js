@@ -3,22 +3,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { AppContainer } from 'react-hot-loader';
-import App from 'App/App';
+import Layout from '@Components/Layout/Layout';
 
-const render = Component => {
-  ReactDOM.render(
-    <AppContainer>
-      <Component />
-    </AppContainer>,
-    document.getElementById('root'),
+const render = Component =>
+  (
+    ReactDOM.render(
+      <AppContainer>
+        <Component />
+      </AppContainer>,
+      document.getElementById('root'),
+    )
   );
-}
 
-render(App);
+render(Layout);
 
 // REACT HOT LOADER
 // if (DEBUG) {
 if (module.hot) {
-  module.hot.accept('App/App', () => { render(App); });
+  module.hot.accept('Layout/Layout', () => { render(Layout); });
 }
 // }

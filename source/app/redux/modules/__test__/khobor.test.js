@@ -1,36 +1,60 @@
 import configureMockStore from 'redux-mock-store';
-import { FETCH_DOG_REQUEST, FETCH_DOG_SUCCESS } from '../../constants/actionTypes';
-import fetchDog from './fetchDog';
-import axios from 'axios';
+import thunk from 'redux-thunk';
+import expect from 'expect'; // You can use any testing library
 import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
 
-describe('fetchDog action', () => {
 
-  let store;
+import {
+  relativeToAbsoluteUrl,
+} from '@Redux/helpers';
+import {
+  INITIAL_STATE,
+  FETCH_KHOBORS,
+  FETCH_KHOBORS_SUCCESS,
+  fetchKhoborList,
+} from '../khobor';
+
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+describe('async actions', () => {
   let httpMock;
-
-  const flushAllPromises = () => new Promise(resolve => setImmediate(resolve));
-
+  let store;
   beforeEach(() => {
     httpMock = new MockAdapter(axios);
-    const mockStore = configureMockStore();
-    store = mockStore({});
+    store = mockStore({ khobor: INITIAL_STATE });
   });
 
-  it('fetches a dog', async () => {
-    // given
-    httpMock.onGet('https://dog.ceo/api/breeds/image/random').reply(200, {
-      status: 'success',
-      message: 'https://dog.ceo/api/img/someDog.jpg',
+  it('creates FETCH_KHOBORS_SUCCESS when fetching khobors has been done', () => {
+    const expectedPayload = [{
+      id: 1,
+      link: 'https://www.prothomalo.com/bangladesh/article/1553953/%E0%A6%9C%E0%A6%BE%E0%A6%A4%E0%A6%BF%E0%A6%B0-%E0%A6%AA%E0%A6%BF%E0%A6%A4%E0%A6%BE-%E0%A6%B9%E0%A6%A4%E0%A7%8D%E0%A6%AF%E0%A6%BE-%E0%A6%B7%E0%A7%9C%E0%A6%AF%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0%E0%A7%87-%E0%A6%96%E0%A6%BE%E0%A6%B2%E0%A7%87%E0%A6%A6%E0%A6%BE%E0%A6%93-%E0%A6%9C%E0%A7%9C%E0%A6%BF%E0%A6%A4',
+      domain: 'prothomalo.com',
+      createdAt: '2018-08-28T00:03:16.878Z',
+      updatedAt: '2018-08-28T00:03:16.878Z',
+    }];
+    const expectedActions = [
+      { type: FETCH_KHOBORS },
+      {
+        type: FETCH_KHOBORS_SUCCESS,
+        payload: expectedPayload,
+      },
+    ];
+
+
+    httpMock.onGet(relativeToAbsoluteUrl('v1/khobor/list'))
+      .reply(
+        200,
+        expectedPayload,
+      );
+
+
+    return store.dispatch(fetchKhoborList()).then(() => {
+      // return of async actions
+      expect(store.getActions()).toEqual(expectedActions);
     });
-    // when
-    fetchDog()(store.dispatch);
-    await flushAllPromises();
-    // then
-    expect(store.getActions()).toEqual(
-      [
-        { type: FETCH_DOG_REQUEST },
-        { payload: { url: 'https://dog.ceo/api/img/someDog.jpg' }, type: FETCH_DOG_SUCCESS }
-      ]);
-  })
+  });
 });
+
