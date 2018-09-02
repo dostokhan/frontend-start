@@ -26,6 +26,7 @@ CMD [ -f "/bin/bash" ] && if [ ${NODE_ENV} = production ]; \
   yarn start; \
   else \
   yarn --pure-lockfile; \
+  # run development server
   yarn devnext; \
   fi
 

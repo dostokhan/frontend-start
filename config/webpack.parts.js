@@ -10,11 +10,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const {
   PATHS,
-  HOST,
-  PORT,
-  // API_URL,
-  // API_URL_BACK,
-  APP_URL,
 } = require('./constants');
 
 exports.setGlobalVariables = (target, override = {}) => ({
@@ -25,9 +20,6 @@ exports.setGlobalVariables = (target, override = {}) => ({
       },
       PRODUCTION: JSON.stringify(target === 'production'),
       DEBUG: JSON.stringify(target !== 'production'),
-      // API_URL: JSON.stringify(API_URL[target]),
-      // API_URL_BACK: JSON.stringify(API_URL_BACK[target]),
-      APP_URL: JSON.stringify(APP_URL[target]),
     }, override)),
   ],
 });
@@ -241,7 +233,7 @@ exports.dashBoardPlugin = {
 exports.hmrPlugins = {
   entry: {
     // HMR ENTRY POINTS
-    hotClient: `webpack-dev-server/client?http://${HOST}:${PORT}`,
+    hotClient: `webpack-dev-server/client?http://${process.env.HOST}:${process.env.APP_URL}`,
     hotServer: 'webpack/hot/only-dev-server',
   },
   // module: {
