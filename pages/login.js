@@ -3,13 +3,13 @@ import withRedux from 'next-redux-wrapper';
 
 import create from 'redux/create';
 import Login from 'routes/Login/Login';
-import App from 'App/App';
+import Layout from '@Components/Layout/Layout';
 
 const LoginPage = () =>
   (
-    <App>
+    <Layout>
       <Login />
-    </App>
+    </Layout>
   );
 
 

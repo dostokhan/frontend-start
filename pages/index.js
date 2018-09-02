@@ -11,23 +11,6 @@ import Layout from '@Components/Layout/Layout';
 import Home from 'routes/Home/Home';
 import initialize from 'utils/initialize';
 
-// NOTE: if cookie is needed
-// import jsHttpCookie from 'cookie';
-
-// class MyPage extends Component {
-//   static async getInitialProps({ req }) {
-//     const initProps = {};
-//     if (req && req.headers) {
-//       const cookies = req.headers.cookie;
-//       if (typeof cookies === 'string') {
-//         const cookiesJSON = jsHttpCookie.parse(cookies);
-//         initProps.token = cookiesJSON.token;
-//       }
-//     }
-//     return initProps;
-//   }
-// }
-
 class Index extends PureComponent {
   static getInitialProps(ctx) {
     initialize(ctx);
@@ -41,8 +24,10 @@ class Index extends PureComponent {
         return ctx.store.dispatch(fetchKhoborList());
       }
 
-      return ctx.store.dispatch(fetchKhoborList());
+      // return ctx.store.dispatch(fetchKhoborList());
     }
+
+    return true;
   }
 
   render() {
