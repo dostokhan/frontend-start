@@ -21,11 +21,11 @@ const initialize = (ctx) => {
   }
 
 
-  if (!token && ctx.pathname === '/writer') {
+  if (!token && ctx.pathname === '/login') {
     if (ctx.res) {
       ctx.res.writeHead(401, {
-        Location: `{APP_URL}`,
-      })
+        Location: process.env.APP_URL,
+      });
       ctx.res.end();
       ctx.res.finished = true;
     } else {
