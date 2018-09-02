@@ -3,8 +3,10 @@
 **updated: sep 2, 2018**
 
 An opnionated boilerplate to start SSR/nonSSR frontend application based on ReactJS and NextJS for me.
+
 There are excellent starter kits out there but when i started with React they seemed initimidating.
-There were so many magic behind and it was hard for me to grasp all of that. 
+There were so much magic behind and it was hard for me to grasp all of that. 
+
 So i started with a basic starter kit and then it became something like this.
 I will try to keep it simple and dumb as much as possible so not to be overwhelmed myself :stuck_out_tongue_winking_eye:
 
