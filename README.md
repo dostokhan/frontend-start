@@ -8,7 +8,7 @@ There were so many magic behind and it was hard for me to grasp all of that.
 So i started with a basic starter kit and then it became something like this.
 I will try to keep it simple and dumb as much as possible so not to be overwhelmed myself :stuck_out_tongue_winking_eye:
 
-- Table of Contents
+## Table of Contents
   - [Folder Structure](#folder-structure)
   - [Quick Start](#quick-start)
   - [Documentation](#documentation)
@@ -16,7 +16,7 @@ I will try to keep it simple and dumb as much as possible so not to be overwhelm
   - [Todo](#todo)
 
 
-### Folder Structure
+## Folder Structure
 ```bash
 ├── build                           # build files reside here
 ├── config                          # webpack, nextjs buld config files
@@ -64,7 +64,7 @@ I will try to keep it simple and dumb as much as possible so not to be overwhelm
 
 ```
 
-### Quick Start
+## Quick Start
 
 ```bash
 # Clone the repository
