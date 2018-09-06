@@ -11,13 +11,6 @@ import KhoborList from './KhoborList/KhoborList';
 
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    const todate = new Date();
-    this.state = {
-      years: todate.getFullYear() - 2011 - 1,
-    };
-  }
   render() {
     return (
       <Container>

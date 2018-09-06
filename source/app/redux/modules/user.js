@@ -7,7 +7,7 @@ import {
 } from '@Redux/helpers';
 
 import {
-  authUserId,
+  getAuthUserId,
   getToken,
 } from '@Redux/modules/auth';
 
@@ -15,6 +15,7 @@ import {
 export const INITIAL_STATE = {
   loading: false,
   byId: {},
+  usernameToId: {},
   ids: [],
 };
 
@@ -23,10 +24,16 @@ export const userLoading = state => state.user.loading;
 const getUsers = state => state.user.byId;
 // const userIds = state => state.user.ids;
 
-export const getUser = (state, props) => state.user.byId[props.id];
+// export const getUser = (state, props) => state.user.byId[props.id];
+export const getIdFromUsername = (state, props) =>
+  state.user.usernameToId[props.username];
 
+export const getUserByUsername = createSelector(
+  [getIdFromUsername, getUsers],
+  (id, users) => users[id],
+);
 export const getAuthUser = createSelector(
-  [authUserId, getUsers],
+  [getAuthUserId, getUsers],
   (id, byId) => (id ? byId[id] : null),
 );
 
@@ -49,13 +56,14 @@ const fetchUserError = error => ({
   type: FETCH_USER_ERROR,
   payload: error,
 });
-export const fetchUser = () =>
+export const fetchUser = username =>
   (dispatch, getState) => {
     dispatch(fetchUserRequest());
     const state = getState();
     const token = getToken(state);
     return axios({
-      url: relativeToAbsoluteUrl('v1/user'),
+      url: relativeToAbsoluteUrl(`v1/user/${username}`),
+      // params: { username },
       headers: { 'mj-token': token },
     })
       .then(response => dispatch(fetchUserSuccess(response.data)))
@@ -71,11 +79,19 @@ const ACTION_HANDLERS = {
     const state = toggleLoading(prevState, false);
     const { user } = payload;
 
+    if (!state.ids.includes(user.id)) {
+      state.ids = [...state.ids, user.id];
+    }
+
     state.byId = {
       ...state.byId,
       [user.id]: {
         ...user,
       },
+    };
+    state.usernameToId = {
+      ...state.usernameToID,
+      [user.username]: user.id,
     };
 
     return state;

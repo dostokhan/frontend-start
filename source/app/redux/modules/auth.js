@@ -16,6 +16,7 @@ export const isAuthenticated = state => Boolean(state.auth.token);
 export const isAuthorized = state => Boolean(state.auth.token);
 export const getToken = state => state.auth.token;
 export const getAuthorizedUser = state => state.auth.user;
+export const getAuthUserId = state => state.auth.user ? state.auth.user.id : null;
 
 // export const authUserId = state => (state.auth.user ? state.auth.user.id : null);
 

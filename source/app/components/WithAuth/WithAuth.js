@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import {
   isAuthorized,
@@ -15,10 +15,10 @@ const WithAuth = (WrappedComponent) => {
       );
     }
   }
-  Auth.propTypes = {
-    authorized: PropTypes.bool.isRequired,
-    user: PropTypes.bool.isRequired,
-  };
+  // Auth.propTypes = {
+  //   authorized: PropTypes.bool.isRequired,
+  //   user: PropTypes.bool.isRequired,
+  // };
 
   const mapStateToProps = state =>
     ({

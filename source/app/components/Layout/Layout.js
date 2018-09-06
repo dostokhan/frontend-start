@@ -1,3 +1,4 @@
+// @flow - we need this so flow knows to check this file for type declarations
 import React, { PureComponent } from 'react';
 // import { bindActionCreators } from 'redux';
 // import { connect } from 'react-redux';

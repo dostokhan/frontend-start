@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Row,
@@ -7,20 +8,18 @@ import {
 import Link from 'next/link';
 import { StyledLink } from 'styled/StyledLink';
 
+import WithAuth from '@Components/WithAuth/WithAuth';
+import UserName from '@Components/UserName/UserName';
+
 import {
   HeaderWrap,
   // ContactRow,
   HeaderTag,
 } from './Header.styled';
 
-import WithAuth from '@Components/WithAuth/WithAuth';
-import UserName from '@Components/UserName/UserName';
-
 
 class Header extends PureComponent {
   render() {
-    console.log(this.props.authUser);
-
     return (
       <HeaderTag>
         <HeaderWrap>
@@ -56,4 +55,11 @@ class Header extends PureComponent {
     );
   }
 }
+Header.defaultProps = {
+  authUser: null,
+};
+Header.propTypes = {
+  authUser: PropTypes.object,
+  authorized: PropTypes.bool.isRequired,
+};
 export default WithAuth(Header);
