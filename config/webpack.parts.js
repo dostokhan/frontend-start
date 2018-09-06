@@ -60,6 +60,7 @@ exports.resolveProjectDependencies = {
       '@Routes': path.resolve(__dirname, '..', 'source', 'app', 'routes'),
       '@Styled': path.resolve(__dirname, '..', 'source', 'app', 'styled'),
       '@Ui': path.resolve(__dirname, '..', 'source', 'app', 'ui'),
+      '@Utils': path.resolve(__dirname, '..', 'source', 'app', 'utils'),
     },
     extensions: ['.js', '.jsx', '.scss', '.css'],
   },

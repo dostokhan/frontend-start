@@ -1,18 +1,25 @@
+import axios from 'axios';
+
 import {
-  API_REQUEST,
-} from 'redux/middleware/http';
-import Api from 'helpers/api';
+  toggleLoading,
+  relativeToAbsoluteUrl,
+  getTokenData,
+} from '@Redux/helpers';
 import {
   setCookie,
   getCookie,
   removeCookie,
-} from 'utils/cookie';
+} from '@Utils/cookie';
 
+export const authLoading = state => state.auth.loading;
 export const isAuthenticated = state => Boolean(state.auth.token);
 export const isAuthorized = state => Boolean(state.auth.token);
 export const getToken = state => state.auth.token;
+export const getAuthorizedUser = state => state.auth.user;
 
-const initialState = {
+// export const authUserId = state => (state.auth.user ? state.auth.user.id : null);
+
+const INITIAL_STATE = {
   loading: false,
   token: null,
 };
@@ -20,18 +27,17 @@ const initialState = {
 if (process.browser) {
   const savedToken = getCookie('mj-token');
   if (savedToken) {
-    initialState.token = savedToken;
+    INITIAL_STATE.token = savedToken;
   }
 }
 
 
 // action types
-const AUTHORIZE = 'auth/authorize';
-const SET_TOKEN = 'auth/setToken';
-const LOGIN = 'auth/login';
-const LOGIN_SUCCESS = 'auth/login/success';
-const LOGIN_FAIL = 'auth/login/fail';
 const AUTH_EXPIRED = 'auth/expired';
+
+const SIGNIN = 'auth/signin';
+const SIGNIN_SUCCESS = 'auth/signin/signin';
+const SIGNIN_ERROR = 'auth/signin/error';
 
 export const authExpired = () => {
   removeCookie('mj-token');
@@ -40,78 +46,44 @@ export const authExpired = () => {
     type: AUTH_EXPIRED,
   });
 };
-export const login = (accessToken, Router) =>
-  (dispatch) => {
-    dispatch({ type: LOGIN });
-    const req = {
-      [API_REQUEST]: {
-        url: `${API}v1/auth/facebook`,
-        config: {
-          method: 'POST',
-          body: {
-            access_token: accessToken,
-          },
-        },
-      },
-    };
 
-    return Api.fetch(req, dispatch).then(
-      (response) => {
-        // const expires = new Date();
-        // expires.setHours(expires.getHours() + 1);
-        // document.cookie =
-        // `mj-token=${response.token}; expires=${expires.toUTCString()}; domain=.imonir.com`;
+const signInRequest = () => ({
+  type: SIGNIN,
+});
+export const signInSuccess = (token) => {
+  setCookie('mj-token', token);
+  // axios.defaults.headers.common['mj-token'] = token;
 
-        setCookie('mj-token', response.token);
-        Router.push('/writer');
-        // expires=Thu, 18 Dec 2020 12:00:00 UTC`
-        return dispatch({ type: LOGIN_SUCCESS, payload: response });
-      },
-      err =>
-        dispatch({ type: LOGIN_SUCCESS, payload: err }),
-    );
-  };
-export const setToken = accessToken =>
-  ({
-    type: SET_TOKEN,
-    payload: {
-      accessToken,
-    },
+  return ({
+    type: SIGNIN_SUCCESS,
+    payload: getTokenData(token),
   });
+};
+const signInError = error => ({
+  type: SIGNIN_ERROR,
+  payload: error,
+});
+export const signIn = ({ username, password }) =>
+  (dispatch) => {
+    dispatch(signInRequest());
+
+    return axios.post(relativeToAbsoluteUrl('v1/auth/signin'), { username, password })
+      .then(response => dispatch(signInSuccess(response.data.token)))
+      .catch(error => dispatch(signInError(error)));
+  };
 // action handlers
 const ACTION_HANDLERS = {
-  [SET_TOKEN]: (prevState, { payload }) =>
-    ({
-      ...prevState,
-      token: payload.accessToken,
-    }),
-  [AUTHORIZE]: prevState =>
-    ({
-      ...prevState,
-      loading: false,
-    }),
-  [LOGIN]: prevState =>
-    ({
-      ...prevState,
-      loading: true,
-    }),
-  [LOGIN_SUCCESS]: (prevState, { payload }) => {
-    const { token } = payload;
-    // if (process.browser) {
-    //   sessionStorage.setItem('mj-token', token);
-    // }
+  [SIGNIN]: prevState => toggleLoading(prevState),
+  [SIGNIN_SUCCESS]: (prevState, { payload }) => {
+    const state = toggleLoading(prevState, false);
+    state.token = payload.token;
+    state.user = payload.user;
 
-    return ({
-      ...prevState,
-      loading: false,
-      token,
-    });
+    return state;
   },
-  [LOGIN_FAIL]: prevState =>
-    ({
-      ...prevState,
-      loading: false,
-    }),
+  [SIGNIN_ERROR]: prevState => toggleLoading(prevState, false),
+
+
   [AUTH_EXPIRED]: prevState =>
     ({
       ...prevState,
@@ -120,7 +92,7 @@ const ACTION_HANDLERS = {
 };
 
 
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = INITIAL_STATE, action = {}) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 }

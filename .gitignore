@@ -5,4 +5,4 @@ npm-debug.log
 build/*
 !.env.development
 !.env.docker.development
-
+coverage
