@@ -25,6 +25,7 @@ export const INITIAL_STATE = {
   loading: false,
   byId: {},
   ids: [],
+  idsByUser: {},
 };
 
 // SELECTORS
@@ -32,7 +33,14 @@ export const sampleKhobor = () => '';
 export const khoborLoading = state => state.khobor.loading;
 const getKhobors = state => state.khobor.byId;
 const khoborIds = state => state.khobor.ids;
+const getKhoborIdsByUser = (state, props) => state.khobor.idsByUser[props.username];
 
+export const getKhoborsByUser = createSelector(
+  [getKhoborIdsByUser, getKhobors],
+  (ids, khobors) => {
+    return [];
+  }, // ids.map(id => khobors[id]),
+);
 export const getKhobor = (state, params) =>
   (params.id === 'new' ?
     '' : state.khobor.byId[params.id]);
@@ -111,20 +119,6 @@ const FETCH_KHOBORS_ERROR = 'khobor/FETCH_KHOBORS_ERROR';
 
 
 // ACTION CREATOR
-// export const fetchKhoborList = () =>
-//   ({
-//     [API_REQUEST]: {
-//       types: [
-//         FETCH_KHOBORS,
-//         FETCH_KHOBORS_SUCCESS,
-//         FETCH_KHOBORS_ERROR,
-//       ],
-//       config: {
-//         url: 'v1/khobor/list',
-//         method: 'get',
-//       },
-//     },
-//   });
 const fetchKhoborRequest = () => ({
   type: FETCH_KHOBORS,
 });
@@ -136,12 +130,13 @@ const fetchKhoborListError = error => ({
   type: FETCH_KHOBORS_ERROR,
   payload: error,
 });
-export const fetchKhoborList = () =>
+export const fetchKhoborList = (params = {}) =>
   (dispatch) => {
     dispatch(fetchKhoborRequest());
-    const url = relativeToAbsoluteUrl('v1/khobor/list');
-    console.log(`Request Url: ${url}`);
-    return axios.get(url)
+    console.log(params);
+    return axios.get(relativeToAbsoluteUrl('v1/khobor'), {
+      params,
+    })
       .then(response => dispatch(fetchKhoborListSuccess(response.data)))
       .catch(error => dispatch(fetchKhoborListError(error)));
   };
@@ -261,9 +256,20 @@ const ACTION_HANDLERS = {
     };
     state.ids = [...state.ids];
 
+    state.idsByUser = { ...state.idsByUser };
+
     payload.forEach((khobor) => {
       state.byId[khobor.id] = khobor;
       state.ids.push(khobor.id);
+
+      if (state.idsByUser[khobor.User.username]) {
+        state.idsByUser[khobor.User.username] = [
+          ...state.idsByUser[khobor.User.username],
+          khobor.id,
+        ];
+      } else {
+        state.idsByUser[khobor.User.username] = [khobor.id];
+      }
     });
 
     return state;

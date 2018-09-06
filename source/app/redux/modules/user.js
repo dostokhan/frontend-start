@@ -63,6 +63,7 @@ export const fetchUser = username =>
     const token = getToken(state);
     return axios({
       url: relativeToAbsoluteUrl(`v1/user/${username}`),
+      method: 'get',
       // params: { username },
       headers: { 'mj-token': token },
     })
