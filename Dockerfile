@@ -1,6 +1,9 @@
 # create image based on official node 8.10 image from Docker
 FROM node:8.10
 
+# RUN groupadd -r appuser && useradd -m -r -g -s /bin/bash appuser appuser
+# USER appuser
+
 # set environment
 ENV NPM_CONFIG_LOGLEVEL warn
 

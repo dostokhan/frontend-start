@@ -3,9 +3,11 @@
 #  from subprocess import call
 import utils
 import os
-#  , isProduction
+import utils
 
 utils.goToParentDir()
+#  , isProduction
+
 #  runProduction = isProduction()
 
 #  createNetwork = 'docker network ls|grep fullstack > /dev/null || docker network create fullstack'
@@ -17,8 +19,4 @@ utils.goToParentDir()
 #  startFrontendContainer = f"CURRENT_UID={str(os.geteuid())}:{str(os.getegid())} docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d"
 startFrontendContainer = 'docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d'
 os.system(startFrontendContainer)
-
-
-print('frontend Up')
-
 
