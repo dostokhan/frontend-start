@@ -1,6 +1,6 @@
 // import Link from 'next/link';
 import styled from 'styled-components';
-import { media } from 'styled/utils';
+import { media } from '@Styled/utils';
 
 // const commonStyle = styled`
 //   color: ${props => props.theme.colors.primary};

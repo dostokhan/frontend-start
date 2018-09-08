@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   isAuthorized,
   getAuthorizedUser,
-} from 'redux/modules/auth';
+} from '@Redux/modules/auth';
 
 const WithAuth = (WrappedComponent) => {
   class Auth extends Component {
