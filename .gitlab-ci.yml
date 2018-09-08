@@ -1,0 +1,85 @@
+image: docker:git
+services:
+- docker:dind
+
+stages:
+- build
+- test
+- release
+- deploy
+
+variables:
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/imonir/frontend-start-project:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/imonir/frontend-start-project:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.example.com
+
+build:
+  stage: build
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+# test2:
+#   stage: test
+#   script:
+#     - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+
+# release-image:
+#   stage: release
+#   script:
+#     - docker pull $CONTAINER_TEST_IMAGE
+#     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+#     - docker push $CONTAINER_RELEASE_IMAGE
+#   only:
+#     - master
+
+# deploy:
+#   stage: deploy
+#   script:
+#     - ./deploy.sh
+#   only:
+#     - master
+
+
+
+# cache:
+#   key: "$CI_BUILD_REF_NAME node:8-alpine"
+#   paths:
+#   - node_modules/
+
+
+# stages:
+#   - build
+#   - unit-test
+
+
+# build:
+#   stage: build
+#   image: node:8.10
+#   variables:
+#     NODE_ENV: "development"
+#   before_script:
+#     # - apk add --update bash
+#     # - apk add --update git && rm -rf /tmp/* /var/cache/apk/*
+#     - npm install
+#   script:
+#     - npm run build
+#   artifacts:
+#     paths:
+#      - server/
+#      - public/
+
+
+# unit test:
+#   stage: unit-test
+#   image: node:8-alpine
+#   # variables:
+#   #   DATABASE_TEST_URL: "mongodb://mongo/dbname"
+#   #   NODE_ENV: "test"
+#   # services:
+#   #   - mongo
+#   script:
+#     - yarn test
+
