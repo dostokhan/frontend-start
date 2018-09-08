@@ -2,7 +2,7 @@
 FROM node:8.10
 
 # create and use nonroot user
-RUN groupadd -r appuser && useradd -m -r -g -s /bin/bash appuser appuser
+RUN groupadd -r appuser && useradd -m -r -g appuser appuser
 USER appuser
 
 # set environment

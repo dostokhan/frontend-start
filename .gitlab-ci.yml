@@ -11,6 +11,7 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.gitlab.com/imonir/frontend-start-project:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.gitlab.com/imonir/frontend-start-project:latest
+  NODE_ENV: "development"
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
@@ -20,6 +21,8 @@ build:
   script:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
+  only:
+    - master
 
 # test2:
 #   stage: test
