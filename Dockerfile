@@ -2,8 +2,8 @@
 FROM node:8.10
 
 # create and use nonroot user
-RUN groupadd -r appuser && useradd -m -r -g appuser appuser
-USER appuser
+# RUN groupadd -r appuser && useradd -m -r -g appuser appuser
+# USER appuser
 
 # set environment
 ENV NPM_CONFIG_LOGLEVEL warn
