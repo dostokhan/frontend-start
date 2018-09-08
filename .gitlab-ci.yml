@@ -13,7 +13,7 @@ variables:
   CONTAINER_RELEASE_IMAGE: registry.gitlab.com/imonir/frontend-start-project:latest
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.example.com
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
 
 build:
   stage: build
