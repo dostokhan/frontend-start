@@ -4,7 +4,7 @@ services:
 
 stages:
 - build
-- test
+- unit-test
 - release
 - deploy
 
@@ -24,10 +24,12 @@ build:
   only:
     - master
 
-# test2:
-#   stage: test
-#   script:
-#     - docker run $CONTAINER_TEST_IMAGE /script/to/run/another/test
+unit-test:
+  stage: unit-test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE yarn test
+  only:
+    - master
 
 # release-image:
 #   stage: release
