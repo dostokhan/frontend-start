@@ -117,7 +117,9 @@ yarn jest test  # run test command
 -  [ ] Remove unnecessary code, config etc specially nextjs and webpack config
 -  [ ] Test deploy a demo app
 
-## Resources
+## Resources for gitlab ci
 1. https://about.gitlab.com/2016/05/23/gitlab-container-registry/
 2. https://github.com/BretFisher/node-docker-good-defaults
 3. https://medium.com/lucjuggery/from-env-variables-to-docker-secrets-bc8802cacdfd
+4. https://docs.docker.com/engine/swarm/secrets/#simple-example-get-started-with-secrets
+5. https://docs.docker.com/engine/reference/commandline/stack_deploy/

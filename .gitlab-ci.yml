@@ -22,14 +22,14 @@ build:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
   only:
-    - master
+    - release
 
 unit-test:
   stage: unit-test
   script:
     - docker run $CONTAINER_TEST_IMAGE yarn test
   only:
-    - master
+    - release
 
 # release-image:
 #   stage: release
@@ -38,14 +38,14 @@ unit-test:
 #     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
 #     - docker push $CONTAINER_RELEASE_IMAGE
 #   only:
-#     - master
+#     - release
 
 # deploy:
 #   stage: deploy
 #   script:
 #     - ./deploy.sh
 #   only:
-#     - master
+#     - release
 
 
 
