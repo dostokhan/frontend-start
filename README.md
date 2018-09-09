@@ -123,3 +123,4 @@ yarn jest test  # run test command
 3. https://medium.com/lucjuggery/from-env-variables-to-docker-secrets-bc8802cacdfd
 4. https://docs.docker.com/engine/swarm/secrets/#simple-example-get-started-with-secrets
 5. https://docs.docker.com/engine/reference/commandline/stack_deploy/
+6. https://medium.com/@codingfriend/continuous-integration-and-deployment-with-gitlab-docker-compose-and-digitalocean-6bd6196b502a
