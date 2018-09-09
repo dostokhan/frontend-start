@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import Link from 'next/link';
-import { StyledLink } from '@Styled/StyledLink';
 
+
+import { Anchor } from '@Styled/Elements';
 import WithAuth from '@Components/WithAuth/WithAuth';
 import {
   getUserByUsername,
@@ -39,7 +39,7 @@ class User extends PureComponent {
         href="/login"
         passHref
       >
-        <StyledLink>Login</StyledLink>
+        <Anchor>Login</Anchor>
       </Link>
     );
   }

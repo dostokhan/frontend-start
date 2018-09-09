@@ -14,10 +14,15 @@ export const relativeToAbsoluteUrl = (relativePath = '') => {
 };
 
 export const getTokenData = (token) => {
-  const decoded = jwtDecode(token);
-  return {
-    token,
-    token_exp: decoded.exp,
-    user: decoded,
-  };
+  try{
+    const decoded = jwtDecode(token);
+    return {
+      token,
+      token_exp: decoded.exp,
+      user: decoded,
+    };
+
+  } catch(error) {
+    return null;
+  }
 };

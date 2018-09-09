@@ -1,7 +1,9 @@
 import React from 'react';
-
 import Link from 'next/link';
-import { StyledLink } from 'styled/StyledLink';
+import PropTypes from 'prop-types';
+
+
+import { Anchor } from '@Styled/Elements';
 
 
 const UserName = props =>
@@ -10,8 +12,12 @@ const UserName = props =>
       href={`/u/${props.name}`}
       passHref
     >
-      <StyledLink>{props.name}</StyledLink>
+      <Anchor>{props.name}</Anchor>
     </Link>
   );
+
+UserName.propTypes = {
+  name: PropTypes.string.isRequired,
+};
 
 export default UserName;

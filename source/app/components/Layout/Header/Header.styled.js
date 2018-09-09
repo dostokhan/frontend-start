@@ -1,12 +1,14 @@
 import styled, { css } from 'styled-components';
 
-import { Row } from 'styled/Responsive';
+import {
+  Row,
+  Container,
+} from '@Styled/Responsive';
 import {
   ClearButton,
   Anchor,
-} from 'styled/Elements';
+} from '@Styled/Elements';
 // import { media } from 'styled/utils';
-import Container from 'styled/Container';
 
 
 const ContactFontSize = css`
@@ -33,11 +35,12 @@ export const Button = styled(ClearButton)`
   // background-color: transparent;
   // border: none;
 export const HeaderWrap = styled(Container)`
-  margin: 0 auto 2rem auto;
+  max-width: 100vw;
 `;
 
 export const HeaderTag = styled.header`
   background-color: #fff;
+  font-size: ${props => props.theme.small};
 `;
 
 // box-shadow: 0 0.1rem 0.4rem rgba(0,0,0,.15);

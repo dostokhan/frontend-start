@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 
 import {
   Row,
   Column,
-} from 'styled/Responsive';
-import Link from 'next/link';
-import { StyledLink } from 'styled/StyledLink';
-
+} from '@Styled/Responsive';
+import { Anchor } from '@Styled/Elements';
 import WithAuth from '@Components/WithAuth/WithAuth';
 import UserName from '@Components/UserName/UserName';
 
@@ -29,17 +28,17 @@ class Header extends PureComponent {
                 href="/"
                 passHref
               >
-                <StyledLink>Home</StyledLink>
+                <Anchor>Home</Anchor>
               </Link>
             </Column>
-            <Column ml="auto">
+            <div>
               {
                 !this.props.authorized && (
                   <Link
                     href="/signin"
                     passHref
                   >
-                    <StyledLink>Sign In</StyledLink>
+                    <Anchor>Sign In</Anchor>
                   </Link>
                 )
               }
@@ -48,7 +47,7 @@ class Header extends PureComponent {
                   <UserName name={this.props.authUser.username} />
                 )
               }
-            </Column>
+            </div>
           </Row>
         </HeaderWrap>
       </HeaderTag>

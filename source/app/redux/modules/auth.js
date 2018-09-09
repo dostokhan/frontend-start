@@ -16,7 +16,7 @@ export const isAuthenticated = state => Boolean(state.auth.token);
 export const isAuthorized = state => Boolean(state.auth.token);
 export const getToken = state => state.auth.token;
 export const getAuthorizedUser = state => state.auth.user;
-export const getAuthUserId = state => state.auth.user ? state.auth.user.id : null;
+export const getAuthUserId = state => (state.auth.user ? state.auth.user.id : null);
 
 // export const authUserId = state => (state.auth.user ? state.auth.user.id : null);
 
@@ -42,23 +42,27 @@ const SIGNIN_ERROR = 'auth/signin/error';
 
 export const authExpired = () => {
   removeCookie('mj-token');
-
   return ({
     type: AUTH_EXPIRED,
   });
 };
-
 const signInRequest = () => ({
   type: SIGNIN,
 });
 export const signInSuccess = (token) => {
-  setCookie('mj-token', token);
-  // axios.defaults.headers.common['mj-token'] = token;
+  const tokenData = getTokenData(token);
 
-  return ({
-    type: SIGNIN_SUCCESS,
-    payload: getTokenData(token),
-  });
+  if (tokenData) {
+    setCookie('mj-token', token);
+    // axios.defaults.headers.common['mj-token'] = token;
+
+    return ({
+      type: SIGNIN_SUCCESS,
+      payload: tokenData,
+    });
+  }
+
+  return authExpired();
 };
 const signInError = error => ({
   type: SIGNIN_ERROR,
