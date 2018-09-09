@@ -1,24 +1,18 @@
 import { createSelector } from 'reselect';
 import axios from 'axios';
-// import 'cross-fetch/polyfill';
-// import Api from 'helpers/api';
-// import Router from 'next/router';
-// import { API_REQUEST } from '@Helpers/constants';
 
 import {
   toggleLoading,
   relativeToAbsoluteUrl,
 } from '@Redux/helpers';
 
-// const relativeToAbsoluteUrl = (relativeUrlPath = '') => {
-//   return process.browser ?
-//     `${process.env.API_URL}${relativeUrlPath}` :
-//     `${process.env.API_URL_BACK}${relativeUrlPath}`;
-// };
 // import {
 //   getToken,
 // } from 'redux/modules/auth';
 
+import {
+  getIdFromUsername,
+} from './user';
 
 // INITIALSTATE
 export const INITIAL_STATE = {
@@ -29,71 +23,17 @@ export const INITIAL_STATE = {
 };
 
 // SELECTORS
-export const sampleKhobor = () => '';
 export const khoborLoading = state => state.khobor.loading;
-const getKhobors = state => state.khobor.byId;
-const khoborIds = state => state.khobor.ids;
-const getKhoborIdsByUser = (state, props) => state.khobor.idsByUser[props.username];
+export const getKhoborIds = state => state.khobor.ids;
+const getKhoborIdsByUser = state => state.khobor.idsByUser;
 
-export const getKhoborsByUser = createSelector(
-  [getKhoborIdsByUser, getKhobors],
-  (ids, khobors) => {
-    return [];
-  }, // ids.map(id => khobors[id]),
+export const getKhobor = (state, params) => state.khobor.byId[params.id];
+
+export const getKhoborIdsByUsername = createSelector(
+  [getIdFromUsername, getKhoborIdsByUser],
+  (id, khoborIdsByUser) => khoborIdsByUser[id],
 );
-export const getKhobor = (state, params) =>
-  (params.id === 'new' ?
-    '' : state.khobor.byId[params.id]);
-const khoborSlugToId = (state, props) =>
-  state.khobor.slugToId[props.slug];
-
-// export const getKhobor = createSelector(
-//   [khoborbyid, getKhobors],
-//   (khobor, khobors) => {
-//     if (!khobor) {
-//       return null;
-//     }
-
-//     return {
-//       ...khobor,
-//       content: contents[khobor.slug],
-//     };
-//   },
-// );
-const getKhoborBySlug = createSelector(
-  [khoborSlugToId, getKhobors],
-  (id, khoborObjects) => khoborObjects[id],
-);
-export const khoborContentBySlug = createSelector(
-  [getKhoborBySlug],
-  khobor => (khobor ? khobor.content : ''),
-);
-
-export const khoborList = createSelector(
-  [khoborIds, getKhobors],
-  (ids, list) => ids.map(id =>
-    ({
-      id,
-      key: id,
-      link: {
-        href: list[id].link,
-        as: list[id].domain,
-        title: list[id].domain,
-      },
-      date: list[id].createdAt,
-    }),
-  ).sort((khobor1, khobor2) => {
-    const khobor1Date = new Date(khobor1.date);
-    const khobor2Date = new Date(khobor2.date);
-    if (khobor1Date > khobor2Date) {
-      return -1;
-    } else if (khobor1Date < khobor2Date) {
-      return 1;
-    }
-
-    return 0;
-  }),
-);
+// export const getKhoborIdsByUser = (state, params) => state.khobor.idsByUser[params.username];
 
 
 // ACTIONS
@@ -122,22 +62,25 @@ const FETCH_KHOBORS_ERROR = 'khobor/FETCH_KHOBORS_ERROR';
 const fetchKhoborRequest = () => ({
   type: FETCH_KHOBORS,
 });
-const fetchKhoborListSuccess = khobors => ({
+const fetchKhoborListSuccess = (khobors, params) => ({
   type: FETCH_KHOBORS_SUCCESS,
-  payload: khobors,
+  payload: {
+    khobors,
+    params,
+  },
 });
 const fetchKhoborListError = error => ({
   type: FETCH_KHOBORS_ERROR,
   payload: error,
 });
-export const fetchKhoborList = (params = {}) =>
+export const fetchKhoborList = params =>
   (dispatch) => {
     dispatch(fetchKhoborRequest());
     console.log(params);
     return axios.get(relativeToAbsoluteUrl('v1/khobor'), {
       params,
     })
-      .then(response => dispatch(fetchKhoborListSuccess(response.data)))
+      .then(response => dispatch(fetchKhoborListSuccess(response.data, params)))
       .catch(error => dispatch(fetchKhoborListError(error)));
   };
 
@@ -250,27 +193,26 @@ const ACTION_HANDLERS = {
 
   [FETCH_KHOBORS_SUCCESS]: (prevState, { payload }) => {
     const state = toggleLoading(prevState);
+    const { khobors, params } = payload;
 
     state.byId = {
       ...state.byId,
     };
-    state.ids = [...state.ids];
 
-    state.idsByUser = { ...state.idsByUser };
-
-    payload.forEach((khobor) => {
+    const ids = [];
+    khobors.forEach((khobor) => {
       state.byId[khobor.id] = khobor;
-      state.ids.push(khobor.id);
-
-      if (state.idsByUser[khobor.User.username]) {
-        state.idsByUser[khobor.User.username] = [
-          ...state.idsByUser[khobor.User.username],
-          khobor.id,
-        ];
-      } else {
-        state.idsByUser[khobor.User.username] = [khobor.id];
-      }
+      ids.push(khobor.id);
     });
+
+    if (params) {
+      state.idsByUser = {
+        ...state.idsByUser,
+        [params.UserId]: ids,
+      };
+    } else {
+      state.ids = ids;
+    }
 
     return state;
   },

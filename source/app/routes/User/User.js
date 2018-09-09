@@ -2,17 +2,19 @@ import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 
 
-import { Anchor } from '@Styled/Elements';
+import {
+  Container,
+} from '@Styled/Responsive';
 import WithAuth from '@Components/WithAuth/WithAuth';
+import KhoborList from '@Components/KhoborList/KhoborList';
 import {
   getUserByUsername,
   fetchUser,
 } from '@Redux/modules/user';
 import {
-  getKhoborsByUser,
+  getKhoborIdsByUsername,
   fetchKhoborList,
 } from '@Redux/modules/khobor';
 
@@ -22,7 +24,7 @@ class User extends PureComponent {
     if (!this.props.user) {
       console.log('fetch user');
       this.props.fetchUser(this.props.username);
-    } else if (this.props.khobors.length === 0) {
+    } else if (this.props.khoborIds.length === 0) {
       console.log('got user but no khobor. fetch khobor');
       this.props.fetchKhoborList({ UserId: this.props.user.id });
     }
@@ -35,26 +37,26 @@ class User extends PureComponent {
   }
   render() {
     return (
-      <Link
-        href="/login"
-        passHref
-      >
-        <Anchor>Login</Anchor>
-      </Link>
+      <Container>
+        <KhoborList ids={this.props.khoborIds} />
+      </Container>
     );
   }
 }
+User.defaultProps = {
+  khoborIds: [],
+};
 User.propTypes = {
   username: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
-  khobors: PropTypes.array.isRequired,
+  khoborIds: PropTypes.array,
   fetchUser: PropTypes.func.isRequired,
   fetchKhoborList: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state, props) =>
   ({
     user: getUserByUsername(state, props),
-    khobors: getKhoborsByUser(state, props),
+    khoborIds: getKhoborIdsByUsername(state, props),
   });
 const mapDispatchToProps = dispatch =>
   bindActionCreators({

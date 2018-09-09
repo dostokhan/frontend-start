@@ -4,7 +4,7 @@ import withRedux from 'next-redux-wrapper';
 import { bindActionCreators } from 'redux';
 
 import {
-  khoborList,
+  getKhoborIds,
   fetchKhoborList,
 } from 'redux/modules/khobor';
 import Layout from '@Components/Layout/Layout';
@@ -16,9 +16,9 @@ class Index extends PureComponent {
     initialize(ctx);
 
     const state = ctx.store.getState();
-    const khobors = khoborList(state);
+    const khoborIds = getKhoborIds(state);
 
-    if (khobors.length === 0) {
+    if (khoborIds.length === 0) {
       if (ctx.isServer) {
         // console.log(ctx.query);
         return ctx.store.dispatch(fetchKhoborList());

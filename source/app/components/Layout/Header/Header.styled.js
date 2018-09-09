@@ -6,7 +6,6 @@ import {
 } from '@Styled/Responsive';
 import {
   ClearButton,
-  Anchor,
 } from '@Styled/Elements';
 // import { media } from 'styled/utils';
 

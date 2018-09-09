@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-import Link from 'next/link';
 
 import { Anchor } from '@Styled/Elements';
 
