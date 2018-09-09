@@ -1,0 +1,13 @@
+version: '3.3'
+
+# a stack-file version of this for running in Swarm services
+
+services:
+  node:
+    # reminder, don't use latest tag in production, use versions created by CI/CD
+    image: imonir/frontend-start:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    deploy:
+      replicas: 1
